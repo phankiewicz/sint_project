@@ -7,7 +7,7 @@ public class Student {
     private int index;
     private String firstName;
     private String lastName;
-    private Date dateOfBirth;
+    private Date birthday;
 
     public Student(){
 
@@ -18,7 +18,7 @@ public class Student {
         this.index = index;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
+        this.birthday = dateOfBirth;
     }
 
 
@@ -46,11 +46,11 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setBirthday(Date dateOfBirth) {
+        this.birthday = dateOfBirth;
     }
 }
