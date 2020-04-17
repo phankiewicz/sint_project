@@ -38,4 +38,13 @@ public class StudentsResource {
         return student;
     }
 
+
+    @DELETE
+    @Path("{student_index}")
+    public void deleteStudent(@PathParam("student_index") Integer index) {
+        Student student = studentService.deleteStudent(index);
+        if(student == null){
+            throw new NotFoundException();
+        }
+    }
 }

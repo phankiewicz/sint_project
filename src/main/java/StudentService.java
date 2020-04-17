@@ -27,8 +27,8 @@ public class StudentService {
         return studentsList;
     }
 
-    public void deleteStudent(Integer id) {
-        studentDao.getStudents().remove(id);
+    public Student deleteStudent(Integer id) {
+        return studentDao.getStudents().remove(id);
     }
 
 }
