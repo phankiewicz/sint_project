@@ -27,6 +27,13 @@ public class StudentService {
         return studentsList;
     }
 
+    public Student updateStudent(Integer index, Student student){
+        System.out.println(student.getBirthday());
+        student.setIndex(index);
+        return studentDao.getStudents().put(index, student);
+
+    }
+
     public Student deleteStudent(Integer id) {
         return studentDao.getStudents().remove(id);
     }
