@@ -1,11 +1,14 @@
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public enum StudentDao {
     instance;
 
-    private Map<Integer, Student> students = new HashMap<Integer, Student>();
+    private AtomicInteger counter = new AtomicInteger(2);
+    private Map<Integer, Student> students = new ConcurrentHashMap<>();
 
     private StudentDao() {
 
@@ -19,6 +22,13 @@ public enum StudentDao {
 
     public Map<Integer, Student> getStudents() {
         return students;
+    }
+
+    public synchronized Student createStudent(Student student) {
+        Integer current_counter = counter.incrementAndGet();
+        student.setIndex(current_counter);
+        students.put(current_counter, student);
+        return students.get(current_counter);
     }
 
 }

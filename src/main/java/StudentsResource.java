@@ -1,13 +1,10 @@
-import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Request;
-import javax.ws.rs.core.UriInfo;
-import javax.xml.bind.JAXBElement;
+import javax.ws.rs.core.*;
 
 @Path("/students")
 public class StudentsResource {
@@ -38,6 +35,12 @@ public class StudentsResource {
             throw new NotFoundException();
         }
         return student;
+    }
+
+    @POST
+    public Response createStudent(@Valid Student student) throws URISyntaxException {
+        Student created_student = studentService.createStudent(student);
+        return Response.created(URI.create(uriInfo.getAbsolutePath() + "/" + String.valueOf(student.getIndex()))).build();
     }
 
     @PUT

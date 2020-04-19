@@ -10,8 +10,8 @@ public class StudentService {
         studentDao = StudentDao.instance;
     }
 
-    public void createStudent(Student student) {
-        studentDao.getStudents().put(student.getIndex(), student);
+    public Student createStudent(Student student) {
+        return studentDao.createStudent(student);
     }
 
     public Student getStudent(Integer id) {
