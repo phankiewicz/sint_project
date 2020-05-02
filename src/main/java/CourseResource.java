@@ -39,6 +39,9 @@ public class CourseResource {
 
     @POST
     public Response create(@Valid Course course) throws URISyntaxException {
+        if (!course.is_valid()){
+            throw new BadRequestException();
+        }
         Course created_course = courseService.create(course);
         return Response.created(URI.create(uriInfo.getAbsolutePath() + "/" + created_course.getId())).build();
     }
@@ -47,6 +50,9 @@ public class CourseResource {
     @Path("{course_id}")
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public void update(@PathParam("course_id") Integer id, @Valid Course course){
+        if (!course.is_valid()){
+            throw new BadRequestException();
+        }
         Course previous_course = courseService.update(id, course);
         if(previous_course == null){
             throw new NotFoundException();

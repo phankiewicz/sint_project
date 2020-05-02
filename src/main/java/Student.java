@@ -53,4 +53,11 @@ public class Student {
     public void setBirthday(Date dateOfBirth) {
         this.birthday = dateOfBirth;
     }
+
+    public boolean is_valid(){
+        if (this.getBirthday() == null || this.getFirstName().equals("") || this.getFirstName() == null || this.getLastName().equals("") || this.getLastName() == null){
+            return false;
+        }
+        return true;
+    }
 }

@@ -39,6 +39,10 @@ public class StudentsResource {
 
     @POST
     public Response createStudent(@Valid Student student) throws URISyntaxException {
+        System.out.println(student.is_valid());
+        if (!student.is_valid()){
+            throw new BadRequestException();
+        }
         Student created_student = studentService.createStudent(student);
         return Response.created(URI.create(uriInfo.getAbsolutePath() + "/" + String.valueOf(student.getIndex()))).build();
     }
@@ -47,6 +51,9 @@ public class StudentsResource {
     @Path("{student_index}")
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public void putStudent(@PathParam("student_index") Integer index, @Valid Student student){
+        if (!student.is_valid()){
+            throw new BadRequestException();
+        }
         Student previous_student = studentService.updateStudent(index, student);
         if(previous_student == null){
             throw new NotFoundException();

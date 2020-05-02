@@ -44,4 +44,11 @@ public class Course {
     public void setLecturer(String lecturer) {
         this.lecturer = lecturer;
     }
+
+    public boolean is_valid(){
+        if (this.getName() == null || this.getName().equals("") || this.getLecturer() == null || this.getLecturer().equals("")){
+            return false;
+        }
+        return true;
+    }
 }

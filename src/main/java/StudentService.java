@@ -28,7 +28,6 @@ public class StudentService {
     }
 
     public Student updateStudent(Integer index, Student student){
-        System.out.println(student.getBirthday());
         student.setIndex(index);
         return studentDao.getStudents().put(index, student);
 
