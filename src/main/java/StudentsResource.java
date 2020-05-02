@@ -68,4 +68,9 @@ public class StudentsResource {
             throw new NotFoundException();
         }
     }
+
+    @Path("{student_index}/grades")
+    public Class<GradeResource> getGradeResource() {
+        return GradeResource.class;
+    }
 }
