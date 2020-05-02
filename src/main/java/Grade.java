@@ -37,7 +37,7 @@ public class Grade {
         return value;
     }
 
-    public void setValue(float value) {
+    public void setValue(double value) {
         this.value = value;
     }
 
