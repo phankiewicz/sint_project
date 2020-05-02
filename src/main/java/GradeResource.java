@@ -50,7 +50,7 @@ public class GradeResource {
     @Path("{grade_id}")
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public void update(@PathParam("grade_id") Integer id, @Valid Grade grade){
-        Grade previous_grade = gradeService.update(1, id, grade);
+        Grade previous_grade = gradeService.update(student_index, id, grade);
         if(previous_grade == null){
             throw new NotFoundException();
         }
@@ -59,7 +59,7 @@ public class GradeResource {
     @DELETE
     @Path("{grade_id}")
     public void delete(@PathParam("grade_id") Integer id) {
-        Grade grade = gradeService.delete(1, id);
+        Grade grade = gradeService.delete(student_index, id);
         if(grade == null){
             throw new NotFoundException();
         }
