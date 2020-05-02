@@ -23,9 +23,16 @@ public class GradeService {
     }
 
 
-    public Grade update(Integer student_index, Integer id, Grade grade){
+    synchronized Grade update(Integer student_index, Integer id, Grade grade){
+        Grade current_grade = this.get_detail(student_index, id);
+        if(current_grade == null)
+        {
+            return current_grade;
+        }
         grade.setId(id);
-        return gradeDao.get(student_index).put(id, grade);
+        Course course = CourseDao.instance.get().get(grade.getCourse().getId());
+        grade.setCourse(course);
+        return gradeDao.get_all().put(id, grade);
     }
 
     synchronized public Grade delete(Integer student_index, Integer id) {
