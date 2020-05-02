@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
+@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Path("/students")
 public class StudentsResource {
 
@@ -21,14 +22,12 @@ public class StudentsResource {
     }
 
     @GET
-    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public List<Student> getStudents() {
         return studentService.getStudentsAsList();
     }
 
     @GET
     @Path("{student_index}")
-    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Student getStudent(@PathParam("student_index") Integer index) {
         Student student = studentService.getStudent(index);
         if(student == null){
@@ -49,7 +48,6 @@ public class StudentsResource {
 
     @PUT
     @Path("{student_index}")
-    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public void putStudent(@PathParam("student_index") Integer index, @Valid Student student){
         if (!student.is_valid()){
             throw new BadRequestException();

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
+@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public class GradeResource {
 
     @Context
@@ -24,14 +25,12 @@ public class GradeResource {
     public int student_index;
 
     @GET
-    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public List<Grade> getStudents() {
         return gradeService.get_list(student_index);
     }
 
     @GET
     @Path("{grade_id}")
-    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Grade getStudent(@PathParam("grade_id") Integer id) {
         Grade grade = gradeService.get_detail(student_index, id);
         if(grade == null){
@@ -51,7 +50,6 @@ public class GradeResource {
 
     @PUT
     @Path("{grade_id}")
-    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public void update(@PathParam("grade_id") Integer id, @Valid Grade grade){
         if (!grade.is_valid()){
             throw new BadRequestException();
