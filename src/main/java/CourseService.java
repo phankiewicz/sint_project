@@ -30,7 +30,9 @@ public class CourseService {
     }
 
     public Course delete(Integer id) {
-        return courseDao.get().remove(id);
+        Course course = courseDao.get().remove(id);
+        GradeDao.instance.delete_by_course(course);
+        return course;
     }
 
 }

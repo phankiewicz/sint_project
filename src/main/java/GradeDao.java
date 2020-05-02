@@ -41,4 +41,8 @@ public enum GradeDao {
         return grades.get(current_counter);
     }
 
+    public synchronized void delete_by_course(Course course){
+        grades.values().removeIf(e -> e.getCourse().getId() == course.getId());
+    }
+
 }
