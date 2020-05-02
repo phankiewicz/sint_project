@@ -28,8 +28,13 @@ public class GradeService {
         return gradeDao.get(student_index).put(id, grade);
     }
 
-    public Grade delete(Integer student_index, Integer id) {
-        return gradeDao.get(student_index).remove(id);
+    synchronized public Grade delete(Integer student_index, Integer id) {
+        Grade grade = this.get_detail(student_index, id);
+        if(grade == null)
+        {
+            return grade;
+        }
+        return gradeDao.get_all().remove(id);
     }
 
 }

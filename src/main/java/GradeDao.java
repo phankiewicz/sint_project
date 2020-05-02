@@ -30,6 +30,10 @@ public enum GradeDao {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    public Map<Integer, Grade> get_all(){
+        return grades;
+    }
+
     public synchronized Grade create(Grade grade) {
         Integer current_counter = counter.incrementAndGet();
         grade.setId(current_counter);
