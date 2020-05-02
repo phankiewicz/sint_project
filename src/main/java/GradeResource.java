@@ -42,6 +42,9 @@ public class GradeResource {
 
     @POST
     public Response create(@Valid Grade grade) throws URISyntaxException {
+        if (!grade.is_valid()){
+            throw new BadRequestException();
+        }
         Grade created_grade = gradeService.create(grade);
         return Response.created(URI.create(uriInfo.getAbsolutePath() + "/" + created_grade.getId())).build();
     }
@@ -50,6 +53,9 @@ public class GradeResource {
     @Path("{grade_id}")
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public void update(@PathParam("grade_id") Integer id, @Valid Grade grade){
+        if (!grade.is_valid()){
+            throw new BadRequestException();
+        }
         Grade previous_grade = gradeService.update(student_index, id, grade);
         if(previous_grade == null){
             throw new NotFoundException();

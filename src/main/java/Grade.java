@@ -1,5 +1,7 @@
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @XmlRootElement
 public class Grade {
@@ -8,6 +10,8 @@ public class Grade {
     private Date date;
     private Course course;
     private Integer studentIndex;
+
+    List<Double> value_values = Arrays.asList(2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0);
 
     public Grade(){
 
@@ -59,6 +63,13 @@ public class Grade {
 
     public void setStudentIndex(Integer studentIndex) {
         this.studentIndex = studentIndex;
+    }
+
+    public boolean is_valid(){
+        if (this.getDate() == null || this.getDate().equals("") || !value_values.contains(this.getValue()) || this.getCourse() == null){
+            return false;
+        }
+        return true;
     }
 
 
