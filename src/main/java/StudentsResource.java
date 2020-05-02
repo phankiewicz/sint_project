@@ -6,8 +6,10 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
-@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+
 @Path("/students")
+@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public class StudentsResource {
 
     @Context
@@ -37,8 +39,7 @@ public class StudentsResource {
     }
 
     @POST
-    public Response createStudent(@Valid Student student) throws URISyntaxException {
-        System.out.println(student.is_valid());
+    public Response createStudent(Student student) throws URISyntaxException {
         if (!student.is_valid()){
             throw new BadRequestException();
         }

@@ -65,12 +65,10 @@ public class Grade {
         this.studentIndex = studentIndex;
     }
 
-    public boolean is_valid(){
+    protected boolean is_valid(){
         if (this.getDate() == null || this.getDate().equals("") || !value_values.contains(this.getValue()) || this.getCourse() == null || !CourseDao.instance.get().containsKey(this.getCourse().getId())){
             return false;
         }
         return true;
     }
-
-
 }

@@ -54,7 +54,7 @@ public class Student {
         this.birthday = dateOfBirth;
     }
 
-    public boolean is_valid(){
+    protected boolean is_valid(){
         if (this.getBirthday() == null || this.getFirstName().equals("") || this.getFirstName() == null || this.getLastName().equals("") || this.getLastName() == null){
             return false;
         }
