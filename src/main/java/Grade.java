@@ -66,7 +66,7 @@ public class Grade {
     }
 
     public boolean is_valid(){
-        if (this.getDate() == null || this.getDate().equals("") || !value_values.contains(this.getValue()) || this.getCourse() == null){
+        if (this.getDate() == null || this.getDate().equals("") || !value_values.contains(this.getValue()) || this.getCourse() == null || !CourseDao.instance.get().containsKey(this.getCourse().getId())){
             return false;
         }
         return true;
