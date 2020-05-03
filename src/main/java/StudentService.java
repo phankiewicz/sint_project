@@ -8,11 +8,9 @@ import java.util.List;
 
 public class StudentService {
 
-    StudentDao studentDao;
     Datastore database;
 
     public StudentService() {
-        studentDao = StudentDao.instance;
         database = new Model().get_database();
     }
 
