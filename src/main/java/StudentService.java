@@ -1,3 +1,4 @@
+import com.mongodb.WriteResult;
 import dev.morphia.Datastore;
 import dev.morphia.Key;
 
@@ -31,8 +32,9 @@ public class StudentService {
 
     }
 
-    public Student deleteStudent(Integer id) {
-        return studentDao.getStudents().remove(id);
+    public WriteResult deleteStudent(Integer id) {
+        Student student = database.createQuery(Student.class).field("index").equal(id).first();
+        return database.delete(student);
     }
 
 }
