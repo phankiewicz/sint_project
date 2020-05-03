@@ -1,30 +1,28 @@
-import java.util.ArrayList;
+import dev.morphia.Datastore;
+import dev.morphia.Key;
+
 import java.util.List;
-import java.util.Map;
 
 public class StudentService {
 
     StudentDao studentDao;
+    Datastore database;
 
     public StudentService() {
         studentDao = StudentDao.instance;
+        database = new Model().get_database();
     }
 
-    public Student createStudent(Student student) {
-        return studentDao.createStudent(student);
+    public Key<Student> createStudent(Student student) {
+        return database.save(student);
     }
 
     public Student getStudent(Integer id) {
-        return studentDao.getStudents().get(id);
+        return database.createQuery(Student.class).field("index").equal(id).first();
     }
 
-    public Map<Integer, Student> getStudents() {
-        return studentDao.getStudents();
-    }
-
-    public List<Student> getStudentsAsList() {
-        List<Student> studentsList = new ArrayList<Student>(studentDao.getStudents().values());
-        return studentsList;
+    public List<Student> getStudents() {
+        return database.createQuery(Student.class).asList();
     }
 
     public Student updateStudent(Integer index, Student student){

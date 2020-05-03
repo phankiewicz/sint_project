@@ -1,9 +1,19 @@
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Id;
+import org.bson.types.ObjectId;
+
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Date;
 
 
+@Entity("students")
 @XmlRootElement
 public class Student {
+    @XmlTransient
+    @Id
+    ObjectId _id;
     private int index;
     private String firstName;
     private String lastName;

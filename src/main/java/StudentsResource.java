@@ -1,3 +1,5 @@
+import dev.morphia.Key;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -12,6 +14,7 @@ import javax.ws.rs.core.*;
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public class StudentsResource {
 
+
     @Context
     UriInfo uriInfo;
     @Context
@@ -25,7 +28,7 @@ public class StudentsResource {
 
     @GET
     public List<Student> getStudents() {
-        return studentService.getStudentsAsList();
+        return studentService.getStudents();
     }
 
     @GET
@@ -43,7 +46,7 @@ public class StudentsResource {
         if (!student.is_valid()){
             throw new BadRequestException();
         }
-        Student created_student = studentService.createStudent(student);
+        Key<Student> created_student = studentService.createStudent(student);
         return Response.created(URI.create(uriInfo.getAbsolutePath() + "/" + String.valueOf(student.getIndex()))).build();
     }
 
