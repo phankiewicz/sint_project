@@ -36,8 +36,14 @@ public class Model {
         Student student1 = new Student(1, "Piotr", "Hankiewicz", new Date());
         Student student2 = new Student(2, "Jan", "Kowalski", new Date());
 
+        Course course1 = new Course("course1", "teacher1");
+        Course course2 = new Course("course2", "teacher2");
+
         db.save(student1);
         db.save(student2);
+
+        db.save(course1);
+        db.save(course2);
     }
 
 }

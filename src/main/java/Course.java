@@ -1,12 +1,21 @@
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Id;
+import org.bson.types.ObjectId;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Date;
 
+@Entity("courses")
 @XmlRootElement
 public class Course {
-    private int id;
+    @XmlTransient
+    @Id
+    ObjectId _id;
     private String name;
     private String lecturer;
 
@@ -14,19 +23,18 @@ public class Course {
 
     }
 
-    public Course(int id, String name, String lecturer) {
+    public Course(String name, String lecturer) {
         super();
-        this.id = id;
         this.name = name;
         this.lecturer = lecturer;
     }
 
-    public int getId() {
-        return id;
+    @XmlJavaTypeAdapter(ObjectIdJaxbAdapter.class)
+    public ObjectId getId() {
+        return _id;
     }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setId(ObjectId id) {
+        this._id = id;
     }
 
     public String getName() {

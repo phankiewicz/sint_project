@@ -1,38 +1,45 @@
-import java.util.ArrayList;
+import com.mongodb.WriteResult;
+import dev.morphia.Datastore;
+import dev.morphia.Key;
+import dev.morphia.query.UpdateOperations;
+import dev.morphia.query.UpdateResults;
+import org.bson.types.ObjectId;
+
 import java.util.List;
-import java.util.Map;
 
 public class CourseService {
 
-    CourseDao courseDao;
+    Datastore database;
 
     public CourseService() {
-        courseDao = CourseDao.instance;
+        database = new Model().get_database();
     }
 
-    public Course create(Course course) {
-        return courseDao.create(course);
+    public Key<Course> create(Course course) {
+        return database.save(course);
     }
 
-    public Course get_detail(Integer id) {
-        return courseDao.get().get(id);
+    public Course get_detail(ObjectId id) {
+        return database.get(Course.class, id);
     }
 
     public List<Course> get_list() {
-        List<Course> courses_list = new ArrayList<Course>(courseDao.get().values());
-        return courses_list;
+        return database.createQuery(Course.class).asList();
     }
 
 
-    public Course update(Integer id, Course course){
-        course.setId(id);
-        return courseDao.get().put(id, course);
+    public UpdateResults update(ObjectId id, Course course){
+        Course current_course = database.get(Course.class, id);
+
+        final UpdateOperations<Course> update_operations = database.createUpdateOperations(Course.class);
+        update_operations.set("name", course.getName());
+        update_operations.set("lecturer", course.getLecturer());
+
+        return database.update(current_course, update_operations);
     }
 
-    public Course delete(Integer id) {
-        Course course = courseDao.get().remove(id);
-        GradeDao.instance.delete_by_course(course);
-        return course;
+    public WriteResult delete(ObjectId id) {
+        return database.delete(Course.class, id);
     }
 
 }

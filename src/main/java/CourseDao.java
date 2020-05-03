@@ -13,9 +13,9 @@ public enum CourseDao {
     private CourseDao() {
 
         //pumping-in some default data
-        Course course = new Course(1, "course1", "teacher1");
+        Course course = new Course("course1", "teacher1");
         courses.put(1, course);
-        course = new Course(2, "course2", "teacher2");
+        course = new Course("course2", "teacher2");
         courses.put(2, course);
 
     }
@@ -26,9 +26,11 @@ public enum CourseDao {
 
     public synchronized Course create(Course course) {
         Integer current_counter = counter.incrementAndGet();
-        course.setId(current_counter);
+//        course.setId(current_counter);
         courses.put(current_counter, course);
         return courses.get(current_counter);
     }
+
+
 
 }

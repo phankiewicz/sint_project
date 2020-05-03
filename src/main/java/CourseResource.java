@@ -1,3 +1,8 @@
+import com.mongodb.WriteResult;
+import dev.morphia.Key;
+import dev.morphia.query.UpdateResults;
+import org.bson.types.ObjectId;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -29,7 +34,7 @@ public class CourseResource {
 
     @GET
     @Path("{course_id}")
-    public Course getStudent(@PathParam("course_id") Integer id) {
+    public Course getStudent(@PathParam("course_id") ObjectId id) {
         Course course = courseService.get_detail(id);
         if(course == null){
             throw new NotFoundException();
@@ -42,27 +47,27 @@ public class CourseResource {
         if (!course.is_valid()){
             throw new BadRequestException();
         }
-        Course created_course = courseService.create(course);
+        Key<Course> created_course = courseService.create(course);
         return Response.created(URI.create(uriInfo.getAbsolutePath() + "/" + created_course.getId())).build();
     }
 
     @PUT
     @Path("{course_id}")
-    public void update(@PathParam("course_id") Integer id, @Valid Course course){
+    public void update(@PathParam("course_id") ObjectId id, @Valid Course course){
         if (!course.is_valid()){
             throw new BadRequestException();
         }
-        Course previous_course = courseService.update(id, course);
-        if(previous_course == null){
+        UpdateResults updateResults = courseService.update(id, course);
+        if(updateResults.getUpdatedCount() == 0){
             throw new NotFoundException();
         }
     }
 
     @DELETE
     @Path("{course_id}")
-    public void delete(@PathParam("course_id") Integer id) {
-        Course course = courseService.delete(id);
-        if(course == null){
+    public void delete(@PathParam("course_id") ObjectId id) {
+        WriteResult write_result = courseService.delete(id);
+        if(write_result.getN() == 0){
             throw new NotFoundException();
         }
     }
