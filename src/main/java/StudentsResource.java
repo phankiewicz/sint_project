@@ -1,4 +1,6 @@
+import com.mongodb.WriteResult;
 import dev.morphia.Key;
+import dev.morphia.query.UpdateResults;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -56,8 +58,8 @@ public class StudentsResource {
         if (!student.is_valid()){
             throw new BadRequestException();
         }
-        Student previous_student = studentService.updateStudent(index, student);
-        if(previous_student == null){
+        UpdateResults updateResults = studentService.updateStudent(index, student);
+        if(updateResults.getUpdatedCount() == 0){
             throw new NotFoundException();
         }
     }
@@ -65,8 +67,8 @@ public class StudentsResource {
     @DELETE
     @Path("{student_index}")
     public void deleteStudent(@PathParam("student_index") Integer index) {
-        Student student = studentService.deleteStudent(index);
-        if(student == null){
+        WriteResult write_result = studentService.deleteStudent(index);
+        if(write_result == null){
             throw new NotFoundException();
         }
     }
