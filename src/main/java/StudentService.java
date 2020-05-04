@@ -15,6 +15,8 @@ public class StudentService {
     }
 
     public Key<Student> createStudent(Student student) {
+        int index = database.findAndModify(database.createQuery(StudentSequence.class), database.createUpdateOperations(StudentSequence.class).inc("sequence")).getSequence();
+        student.setIndex(index);
         return database.save(student);
     }
 

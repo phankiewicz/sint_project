@@ -33,16 +33,23 @@ public class Model {
         if(db.createQuery(Student.class).count() > 0){
             return;
         }
-        Student student1 = new Student(1, "Piotr", "Hankiewicz", new Date());
-        Student student2 = new Student(2, "Jan", "Kowalski", new Date());
+
+        StudentSequence student_sequence = new StudentSequence(0);
+        db.save(student_sequence);
+
+        int index = 0;
+        index = db.findAndModify(db.createQuery(StudentSequence.class), db.createUpdateOperations(StudentSequence.class).inc("sequence")).getSequence();
+        Student student1 = new Student(index, "Piotr", "Hankiewicz", new Date());
+        index = db.findAndModify(db.createQuery(StudentSequence.class), db.createUpdateOperations(StudentSequence.class).inc("sequence")).getSequence();
+        Student student2 = new Student(index, "Jan", "Kowalski", new Date());
 
         Course course1 = new Course("course1", "teacher1");
         Course course2 = new Course("course2", "teacher2");
 
-        Grade grade1 = new Grade(4.5, new Date(), course1, 1);
-        Grade grade2 = new Grade(4.0, new Date(), course1, 1);
-        Grade grade3 = new Grade(3.5, new Date(), course2, 2);
-        Grade grade4 = new Grade(2.5, new Date(), course2, 2);
+        Grade grade1 = new Grade(4.5, new Date(), course1, student1.getIndex());
+        Grade grade2 = new Grade(4.0, new Date(), course1, student1.getIndex());
+        Grade grade3 = new Grade(3.5, new Date(), course2, student2.getIndex());
+        Grade grade4 = new Grade(2.5, new Date(), course2, student2.getIndex());
 
         db.save(student1);
         db.save(student2);
