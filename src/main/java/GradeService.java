@@ -11,11 +11,9 @@ import java.util.Map;
 
 public class GradeService {
 
-    GradeDao gradeDao;
     Datastore database;
 
     public GradeService() {
-        gradeDao = GradeDao.instance;
         database = new Model().get_database();
     }
 
