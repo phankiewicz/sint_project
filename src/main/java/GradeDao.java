@@ -36,7 +36,7 @@ public enum GradeDao {
 
     public synchronized Grade create(Grade grade) {
         Integer current_counter = counter.incrementAndGet();
-        grade.setId(current_counter);
+//        grade.setId(current_counter);
         grades.put(current_counter, grade);
         return grades.get(current_counter);
     }

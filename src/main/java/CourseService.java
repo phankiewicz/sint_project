@@ -39,6 +39,11 @@ public class CourseService {
     }
 
     public WriteResult delete(ObjectId id) {
+        Course course = database.get(Course.class, id);
+        List<Grade> grades = database.createQuery(Grade.class).filter("course", course).asList();
+        for(Grade grade: grades){
+            database.delete(Grade.class, grade.getId());
+        }
         return database.delete(Course.class, id);
     }
 

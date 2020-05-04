@@ -20,7 +20,7 @@ public class Model {
     public Model(){
         this.client = new MongoClient("localhost", 27017);
         this.morphia = new Morphia();
-        this.morphia.map(Student.class);
+        this.morphia.map(Student.class, Course.class, Grade.class);
         this.database = this.morphia.createDatastore(this.client, "sint_project");
         this.database.ensureIndexes();
         this.database.enableDocumentValidation();
@@ -39,11 +39,21 @@ public class Model {
         Course course1 = new Course("course1", "teacher1");
         Course course2 = new Course("course2", "teacher2");
 
+        Grade grade1 = new Grade(4.5, new Date(), course1, 1);
+        Grade grade2 = new Grade(4.0, new Date(), course1, 1);
+        Grade grade3 = new Grade(3.5, new Date(), course2, 2);
+        Grade grade4 = new Grade(2.5, new Date(), course2, 2);
+
         db.save(student1);
         db.save(student2);
 
         db.save(course1);
         db.save(course2);
+
+        db.save(grade1);
+        db.save(grade2);
+        db.save(grade3);
+        db.save(grade4);
     }
 
 }
