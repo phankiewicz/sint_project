@@ -18,11 +18,13 @@ public class GradeService {
     }
 
     public Key<Grade> create(Grade grade) {
+        int id = database.findAndModify(database.createQuery(GradeSequence.class), database.createUpdateOperations(GradeSequence.class).inc("sequence")).getSequence();
+        grade.setIndex(id);
         return database.save(grade);
     }
 
-    public Grade get_detail(Integer student_index, ObjectId id) {
-        return database.get(Grade.class, id);
+    public Grade get_detail(Integer student_index, int id) {
+        return database.createQuery(Grade.class).field("index").equal(id).first();
     }
 
     public List<Grade> get_list(Integer student_index) {
@@ -30,8 +32,8 @@ public class GradeService {
     }
 
 
-    synchronized UpdateResults update(Integer student_index, ObjectId id, Grade grade){
-        Grade current_grade = database.get(Grade.class, id);
+    synchronized UpdateResults update(Integer student_index, int id, Grade grade){
+        Grade current_grade = database.createQuery(Grade.class).field("index").equal(id).first();
 
         final UpdateOperations<Grade> update_operations = database.createUpdateOperations(Grade.class);
         update_operations.set("value", grade.getValue());
@@ -41,8 +43,9 @@ public class GradeService {
         return database.update(current_grade, update_operations);
     }
 
-    synchronized public WriteResult delete(Integer student_index, ObjectId id) {
-        return database.delete(Grade.class, id);
+    synchronized public WriteResult delete(Integer student_index, int id) {
+        Grade current_grade = database.createQuery(Grade.class).field("index").equal(id).first();
+        return database.delete(current_grade);
     }
 
 }

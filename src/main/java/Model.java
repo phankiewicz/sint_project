@@ -36,6 +36,8 @@ public class Model {
 
         StudentSequence student_sequence = new StudentSequence(0);
         db.save(student_sequence);
+        GradeSequence grade_sequence = new GradeSequence(0);
+        db.save(grade_sequence);
 
         int index = 0;
         index = db.findAndModify(db.createQuery(StudentSequence.class), db.createUpdateOperations(StudentSequence.class).inc("sequence")).getSequence();
@@ -46,10 +48,15 @@ public class Model {
         Course course1 = new Course("course1", "teacher1");
         Course course2 = new Course("course2", "teacher2");
 
-        Grade grade1 = new Grade(4.5, new Date(), course1, student1.getIndex());
-        Grade grade2 = new Grade(4.0, new Date(), course1, student1.getIndex());
-        Grade grade3 = new Grade(3.5, new Date(), course2, student2.getIndex());
-        Grade grade4 = new Grade(2.5, new Date(), course2, student2.getIndex());
+        int grade_id;
+        grade_id = db.findAndModify(db.createQuery(GradeSequence.class), db.createUpdateOperations(GradeSequence.class).inc("sequence")).getSequence();
+        Grade grade1 = new Grade(grade_id,4.5, new Date(), course1, student1.getIndex());
+        grade_id = db.findAndModify(db.createQuery(GradeSequence.class), db.createUpdateOperations(GradeSequence.class).inc("sequence")).getSequence();
+        Grade grade2 = new Grade(grade_id,4.0, new Date(), course1, student1.getIndex());
+        grade_id = db.findAndModify(db.createQuery(GradeSequence.class), db.createUpdateOperations(GradeSequence.class).inc("sequence")).getSequence();
+        Grade grade3 = new Grade(grade_id,3.5, new Date(), course2, student2.getIndex());
+        grade_id = db.findAndModify(db.createQuery(GradeSequence.class), db.createUpdateOperations(GradeSequence.class).inc("sequence")).getSequence();
+        Grade grade4 = new Grade(grade_id,2.5, new Date(), course2, student2.getIndex());
 
         db.save(student1);
         db.save(student2);

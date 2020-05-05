@@ -5,7 +5,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 public class ExceptionHandler implements ExceptionMapper<Exception> {
     @Override
     public Response toResponse(Exception e) {
-//        e.printStackTrace();
+        e.printStackTrace();
         if (e instanceof WebApplicationException)
             return ((WebApplicationException) e).getResponse();
         e.printStackTrace();

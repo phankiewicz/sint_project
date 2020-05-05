@@ -42,7 +42,8 @@ public class CourseService {
         Course course = database.get(Course.class, id);
         List<Grade> grades = database.createQuery(Grade.class).filter("course", course).asList();
         for(Grade grade: grades){
-            database.delete(Grade.class, grade.getId());
+            Grade current_grade = database.createQuery(Grade.class).field("index").equal(grade.getIndex()).first();
+            database.delete(current_grade);
         }
         return database.delete(Course.class, id);
     }

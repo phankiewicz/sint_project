@@ -4,6 +4,7 @@ import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Reference;
 import org.bson.types.ObjectId;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -14,10 +15,11 @@ import java.util.List;
 @Entity("grades")
 @XmlRootElement
 public class Grade {
-    @XmlTransient
     @Id
+    @XmlTransient
     ObjectId _id;
-    private int id;
+    
+    private int index;
     private double value;
     private Date date;
     @Reference
@@ -37,13 +39,21 @@ public class Grade {
         this.studentIndex = studentIndex;
     }
 
-    @XmlJavaTypeAdapter(ObjectIdJaxbAdapter.class)
-    public ObjectId getId() {
-        return _id;
+    public Grade(int id, double value, Date date, Course course, Integer studentIndex){
+        this.index = id;
+        this.value = value;
+        this.date = date;
+        this.course = course;
+        this.studentIndex = studentIndex;
     }
-    public void setId(ObjectId id) {
-        this._id = id;
+
+    public int getIndex() {
+        return index;
     }
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
 
     public double getValue() {
         return value;

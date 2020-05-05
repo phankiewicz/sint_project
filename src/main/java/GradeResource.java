@@ -38,7 +38,7 @@ public class GradeResource {
 
     @GET
     @Path("{grade_id}")
-    public Grade getStudent(@PathParam("grade_id") ObjectId id) {
+    public Grade getStudent(@PathParam("grade_id") int id) {
         Grade grade = gradeService.get_detail(student_index, id);
         if(grade == null){
             throw new NotFoundException();
@@ -54,12 +54,14 @@ public class GradeResource {
         }
         grade.setCourse(course);
         Key<Grade> created_grade = gradeService.create(grade);
-        return Response.created(URI.create(uriInfo.getAbsolutePath() + "/" + created_grade.getId())).build();
+        Grade current_grade = gradeService.database.get(Grade.class, created_grade.getId());
+        System.out.println(current_grade.getIndex());
+        return Response.created(URI.create(uriInfo.getAbsolutePath() + "/" + current_grade.getIndex())).build();
     }
 
     @PUT
     @Path("{grade_id}")
-    public void update(@PathParam("grade_id") ObjectId id, @Valid Grade grade){
+    public void update(@PathParam("grade_id") int id, @Valid Grade grade){
         Course course = gradeService.database.get(Course.class, grade.getCourse().getId());
         if (!grade.is_valid() || course == null){
             throw new BadRequestException();
@@ -73,7 +75,7 @@ public class GradeResource {
 
     @DELETE
     @Path("{grade_id}")
-    public void delete(@PathParam("grade_id") ObjectId id) {
+    public void delete(@PathParam("grade_id") int id) {
         WriteResult write_result = gradeService.delete(student_index, id);
         if(write_result.getN() == 0){
             throw new NotFoundException();
