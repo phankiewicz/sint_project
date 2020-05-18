@@ -54,7 +54,7 @@ public class GradeService {
         if (course_id != null) {
             List<Integer> grades_ids = new ArrayList<Integer>();
             for(Grade grade: query){
-                if(grade.getCourse().getId().toString().equals(course_id)){
+                if(grade.getCourse().getId().toString().equalsIgnoreCase(course_id)){
                     grades_ids.add(grade.getIndex());
                 }
             }
