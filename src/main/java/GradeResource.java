@@ -32,8 +32,8 @@ public class GradeResource {
     public int student_index;
 
     @GET
-    public List<Grade> getStudents() {
-        return gradeService.get_list(student_index);
+    public List<Grade> getStudents(@QueryParam("value") double value, @QueryParam("valueCompare") int valueCompare) {
+        return gradeService.get_list(student_index, value, valueCompare);
     }
 
     @GET

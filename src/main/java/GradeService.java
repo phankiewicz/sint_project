@@ -1,6 +1,7 @@
 import com.mongodb.WriteResult;
 import dev.morphia.Datastore;
 import dev.morphia.Key;
+import dev.morphia.query.Query;
 import dev.morphia.query.UpdateOperations;
 import dev.morphia.query.UpdateResults;
 import org.bson.types.ObjectId;
@@ -27,8 +28,20 @@ public class GradeService {
         return database.createQuery(Grade.class).field("index").equal(id).first();
     }
 
-    public List<Grade> get_list(Integer student_index) {
-        return database.createQuery(Grade.class).asList();
+    public List<Grade> get_list(Integer student_index, double value, int valueCompare) {
+        Query<Grade> query = database.createQuery(Grade.class);
+        if(value != 0){
+            if(valueCompare > 0){
+                query = query.field("value").greaterThan(value);
+            }
+            else if(valueCompare < 0){
+                query = query.field("value").lessThan(value);
+            }
+            else {
+                query = query.field("value").equal(value);
+            }
+        }
+        return query.asList();
     }
 
 
