@@ -29,8 +29,8 @@ public class StudentsResource {
     }
 
     @GET
-    public List<Student> getStudents() {
-        return studentService.getStudents();
+    public List<Student> getStudents(@QueryParam("firstName") String firstName, @QueryParam("lastName") String lastName) {
+        return studentService.getStudents(firstName, lastName);
     }
 
     @GET

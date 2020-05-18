@@ -1,10 +1,12 @@
 import com.mongodb.WriteResult;
 import dev.morphia.Datastore;
 import dev.morphia.Key;
+import dev.morphia.query.Query;
 import dev.morphia.query.UpdateOperations;
 import dev.morphia.query.UpdateResults;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class StudentService {
 
@@ -24,8 +26,15 @@ public class StudentService {
         return database.createQuery(Student.class).field("index").equal(index).first();
     }
 
-    public List<Student> getStudents() {
-        return database.createQuery(Student.class).asList();
+    public List<Student> getStudents(String firstName, String lastName) {
+        Query<Student> query = database.createQuery(Student.class);
+        if(firstName != null){
+            query = query.field("firstName").containsIgnoreCase(firstName);
+        }
+        if(lastName != null){
+            query = query.field("lastName").containsIgnoreCase(lastName);
+        }
+        return query.asList();
     }
 
     public UpdateResults updateStudent(Integer index, Student student){
