@@ -5,6 +5,7 @@ import dev.morphia.query.Query;
 import dev.morphia.query.UpdateOperations;
 import dev.morphia.query.UpdateResults;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class GradeService {
         return database.createQuery(Grade.class).field("studentIndex").equal(student_index).field("index").equal(id).first();
     }
 
-    public List<Grade> get_list(Integer student_index, double value, int valueCompare, Date date, int dateCompare) {
+    public List<Grade> get_list(Integer student_index, double value, int valueCompare, Date date, int dateCompare, String course_id) {
         Query<Grade> query = database.createQuery(Grade.class).field("studentIndex").equal(student_index);
         if(value != 0){
             if(valueCompare > 0){
@@ -49,6 +50,15 @@ public class GradeService {
             else {
                 query = query.field("date").equal(date);
             }
+        }
+        if (course_id != null) {
+            List<Integer> grades_ids = new ArrayList<Integer>();
+            for(Grade grade: query){
+                if(grade.getCourse().getId().toString().equals(course_id)){
+                    grades_ids.add(grade.getIndex());
+                }
+            }
+            query = query.field("index").in(grades_ids);
         }
         return query.asList();
     }

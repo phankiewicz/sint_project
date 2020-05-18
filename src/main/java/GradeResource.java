@@ -37,8 +37,9 @@ public class GradeResource {
             @QueryParam("value") double value,
             @QueryParam("valueCompare") int valueCompare,
             @QueryParam("date") Date date,
-            @QueryParam("dateCompare") int dateCompare) {
-        return gradeService.get_list(student_index, value, valueCompare, date, dateCompare);
+            @QueryParam("dateCompare") int dateCompare,
+            @QueryParam("course") String course_id) {
+        return gradeService.get_list(student_index, value, valueCompare, date, dateCompare, course_id);
     }
 
     @GET
