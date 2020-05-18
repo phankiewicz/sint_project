@@ -5,6 +5,7 @@ import dev.morphia.query.Query;
 import dev.morphia.query.UpdateOperations;
 import dev.morphia.query.UpdateResults;
 
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -26,13 +27,24 @@ public class StudentService {
         return database.createQuery(Student.class).field("index").equal(index).first();
     }
 
-    public List<Student> getStudents(String firstName, String lastName) {
+    public List<Student> getStudents(String firstName, String lastName, Date birthday, int birthdayCompare) {
         Query<Student> query = database.createQuery(Student.class);
         if(firstName != null){
             query = query.field("firstName").containsIgnoreCase(firstName);
         }
         if(lastName != null){
             query = query.field("lastName").containsIgnoreCase(lastName);
+        }
+        if(birthday != null){
+            if(birthdayCompare > 0){
+                query = query.field("birthday").greaterThan(birthday);
+            }
+            else if(birthdayCompare < 0){
+                query = query.field("birthday").lessThan(birthday);
+            }
+            else {
+                query = query.field("birthday").equal(birthday);
+            }
         }
         return query.asList();
     }
