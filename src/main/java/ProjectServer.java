@@ -14,6 +14,7 @@ public class ProjectServer {
                 .register(DeclarativeLinkingFeature.class);
         config.registerClasses(StudentsResource.class, CourseResource.class);
         config.register(ExceptionHandler.class);
+        config.register(new DateParamConverterProvider("yyyy-MM-dd"));
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(baseUri, config);
         server.start();
     }
