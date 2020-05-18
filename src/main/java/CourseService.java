@@ -1,6 +1,7 @@
 import com.mongodb.WriteResult;
 import dev.morphia.Datastore;
 import dev.morphia.Key;
+import dev.morphia.query.Query;
 import dev.morphia.query.UpdateOperations;
 import dev.morphia.query.UpdateResults;
 import org.bson.types.ObjectId;
@@ -23,8 +24,16 @@ public class CourseService {
         return database.get(Course.class, id);
     }
 
-    public List<Course> get_list() {
-        return database.createQuery(Course.class).asList();
+    public List<Course> get_list(String name, String lecturer) {
+
+        Query<Course> query = database.createQuery(Course.class);
+        if(name != null){
+            query = query.field("name").containsIgnoreCase(name);
+        }
+        if(lecturer != null){
+            query = query.field("lecturer").containsIgnoreCase(lecturer);
+        }
+        return query.asList();
     }
 
 
