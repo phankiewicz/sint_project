@@ -30,7 +30,7 @@ public class Model {
 
     public static void initialize(Model model){
         Datastore db = model.get_database();
-        if(db.createQuery(Student.class).count() > 0){
+        if(db.createQuery(Student.class).count() > 0 | db.createQuery(Course.class).count() > 0 | db.createQuery(Grade.class).count() > 0 | db.createQuery(StudentSequence.class).count() > 0 | db.createQuery(GradeSequence.class).count() > 0){
             return;
         }
 
