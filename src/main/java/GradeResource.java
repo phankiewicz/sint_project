@@ -61,7 +61,6 @@ public class GradeResource {
         grade.setStudentIndex(student_index);
         Key<Grade> created_grade = gradeService.create(grade);
         Grade current_grade = gradeService.database.get(Grade.class, created_grade.getId());
-        System.out.println(current_grade.getIndex());
         return Response.created(URI.create(uriInfo.getAbsolutePath() + "/" + current_grade.getIndex())).build();
     }
 

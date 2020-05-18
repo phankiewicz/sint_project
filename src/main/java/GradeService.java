@@ -43,7 +43,6 @@ public class GradeService {
             }
         }
         if(date != null){
-            System.out.println(date);
             if(dateCompare > 0){
                 query = query.field("date").greaterThan(date);
             }
