@@ -6,6 +6,7 @@ import org.bson.types.ObjectId;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Singleton;
@@ -32,8 +33,12 @@ public class GradeResource {
     public int student_index;
 
     @GET
-    public List<Grade> getStudents(@QueryParam("value") double value, @QueryParam("valueCompare") int valueCompare) {
-        return gradeService.get_list(student_index, value, valueCompare);
+    public List<Grade> getStudents(
+            @QueryParam("value") double value,
+            @QueryParam("valueCompare") int valueCompare,
+            @QueryParam("date") Date date,
+            @QueryParam("dateCompare") int dateCompare) {
+        return gradeService.get_list(student_index, value, valueCompare, date, dateCompare);
     }
 
     @GET
@@ -53,6 +58,7 @@ public class GradeResource {
             throw new BadRequestException();
         }
         grade.setCourse(course);
+        grade.setStudentIndex(student_index);
         Key<Grade> created_grade = gradeService.create(grade);
         Grade current_grade = gradeService.database.get(Grade.class, created_grade.getId());
         System.out.println(current_grade.getIndex());
