@@ -24,11 +24,11 @@ public class GradeService {
     }
 
     public Grade get_detail(Integer student_index, int id) {
-        return database.createQuery(Grade.class).field("id").equal(id).first();
+        return database.createQuery(Grade.class).field("studentIndex").equal(student_index).field("id").equal(id).first();
     }
 
     public List<Grade> get_list(Integer student_index) {
-        return database.createQuery(Grade.class).asList();
+        return database.createQuery(Grade.class).field("studentIndex").equal(student_index).asList();
     }
 
 
