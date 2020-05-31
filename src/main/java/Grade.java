@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.morphia.annotations.*;
 import org.bson.types.ObjectId;
 import org.glassfish.jersey.linking.Binding;
@@ -28,6 +29,8 @@ public class Grade {
     ObjectId object_id;
     private int id;
     private double value;
+    @JsonFormat(shape=JsonFormat.Shape.STRING,
+            pattern="yyyy-MM-dd", timezone="CET")
     private Date date;
     @Reference
     private Course course;
