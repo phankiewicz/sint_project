@@ -19,12 +19,12 @@ public class GradeService {
 
     public Key<Grade> create(Grade grade) {
         int id = database.findAndModify(database.createQuery(GradeSequence.class), database.createUpdateOperations(GradeSequence.class).inc("sequence")).getSequence();
-        grade.setIndex(id);
+        grade.setId(id);
         return database.save(grade);
     }
 
     public Grade get_detail(Integer student_index, int id) {
-        return database.createQuery(Grade.class).field("index").equal(id).first();
+        return database.createQuery(Grade.class).field("id").equal(id).first();
     }
 
     public List<Grade> get_list(Integer student_index) {
@@ -33,7 +33,7 @@ public class GradeService {
 
 
     synchronized UpdateResults update(Integer student_index, int id, Grade grade){
-        Grade current_grade = database.createQuery(Grade.class).field("index").equal(id).first();
+        Grade current_grade = database.createQuery(Grade.class).field("id").equal(id).first();
 
         final UpdateOperations<Grade> update_operations = database.createUpdateOperations(Grade.class);
         update_operations.set("value", grade.getValue());

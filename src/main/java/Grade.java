@@ -15,11 +15,11 @@ import java.util.List;
 @Entity("grades")
 @XmlRootElement
 public class Grade {
-    @Id
+
     @XmlTransient
-    ObjectId _id;
-    
-    private int index;
+    @Id
+    ObjectId object_id;
+    private int id;
     private double value;
     private Date date;
     @Reference
@@ -40,18 +40,19 @@ public class Grade {
     }
 
     public Grade(int id, double value, Date date, Course course, Integer studentIndex){
-        this.index = id;
+        this.id = id;
         this.value = value;
         this.date = date;
         this.course = course;
         this.studentIndex = studentIndex;
     }
 
-    public int getIndex() {
-        return index;
+    public int getId() {
+        return id;
     }
-    public void setIndex(int index) {
-        this.index = index;
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 
