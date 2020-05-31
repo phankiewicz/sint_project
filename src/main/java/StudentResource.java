@@ -50,9 +50,4 @@ public class StudentResource {
             throw new NotFoundException();
         }
     }
-
-    @Path("/grades")
-    public Class<GradeResource> getGradeResource() {
-        return GradeResource.class;
-    }
 }

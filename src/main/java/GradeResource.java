@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
+@Path("/students/{student_index}/grades/{grade_id}")
 @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 public class GradeResource {
@@ -26,12 +27,6 @@ public class GradeResource {
     public int student_index;
 
     @GET
-    public List<Grade> getStudents() {
-        return gradeService.get_list(student_index);
-    }
-
-    @GET
-    @Path("{grade_id}")
     public Grade getStudent(@PathParam("grade_id") Integer id) {
         Grade grade = gradeService.get_detail(student_index, id);
         if(grade == null){
@@ -40,17 +35,7 @@ public class GradeResource {
         return grade;
     }
 
-    @POST
-    public Response create(@Valid Grade grade) throws URISyntaxException {
-        if (!grade.is_valid()){
-            throw new BadRequestException();
-        }
-        Grade created_grade = gradeService.create(grade);
-        return Response.created(URI.create(uriInfo.getAbsolutePath() + "/" + created_grade.getId())).build();
-    }
-
     @PUT
-    @Path("{grade_id}")
     public void update(@PathParam("grade_id") Integer id, @Valid Grade grade){
         if (!grade.is_valid()){
             throw new BadRequestException();
@@ -62,7 +47,6 @@ public class GradeResource {
     }
 
     @DELETE
-    @Path("{grade_id}")
     public void delete(@PathParam("grade_id") Integer id) {
         Grade grade = gradeService.delete(student_index, id);
         if(grade == null){
