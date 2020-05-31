@@ -13,6 +13,7 @@ public class ProjectServer {
         config.register(DeclarativeLinkingFeature.class);
         config.registerClasses(StudentsResource.class, StudentResource.class, CoursesResource.class, CourseResource.class, GradesResource.class, GradeResource.class);
         config.register(ExceptionHandler.class);
+        config.register(CustomHeaders.class);
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(baseUri, config);
         server.start();
     }
