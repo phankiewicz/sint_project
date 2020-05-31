@@ -8,7 +8,7 @@ import javax.ws.rs.core.*;
 
 @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-@Path("/courses")
+@Path("/courses/{course_id}")
 public class CourseResource {
 
     @Context
@@ -23,12 +23,6 @@ public class CourseResource {
     }
 
     @GET
-    public List<Course> getStudents() {
-        return courseService.get_list();
-    }
-
-    @GET
-    @Path("{course_id}")
     public Course getStudent(@PathParam("course_id") Integer id) {
         Course course = courseService.get_detail(id);
         if(course == null){
@@ -47,7 +41,6 @@ public class CourseResource {
     }
 
     @PUT
-    @Path("{course_id}")
     public void update(@PathParam("course_id") Integer id, @Valid Course course){
         if (!course.is_valid()){
             throw new BadRequestException();
@@ -59,7 +52,6 @@ public class CourseResource {
     }
 
     @DELETE
-    @Path("{course_id}")
     public void delete(@PathParam("course_id") Integer id) {
         Course course = courseService.delete(id);
         if(course == null){
