@@ -11,10 +11,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
 
-@Path("/students")
+@Path("/students/{student_index}")
 @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-public class StudentsResource {
+public class StudentResource {
 
 
     @Context
@@ -24,17 +24,11 @@ public class StudentsResource {
 
     StudentService studentService;
 
-    public StudentsResource() {
+    public StudentResource() {
         studentService = new StudentService();
     }
 
     @GET
-    public List<Student> getStudents() {
-        return studentService.getStudents();
-    }
-
-    @GET
-    @Path("{student_index}")
     public Student getStudent(@PathParam("student_index") Integer index) {
         Student student = studentService.getStudent(index);
         if(student == null){
@@ -43,17 +37,7 @@ public class StudentsResource {
         return student;
     }
 
-    @POST
-    public Response createStudent(Student student) throws URISyntaxException {
-        if (!student.is_valid()){
-            throw new BadRequestException();
-        }
-        Key<Student> created_student = studentService.createStudent(student);
-        return Response.created(URI.create(uriInfo.getAbsolutePath() + "/" + String.valueOf(student.getIndex()))).build();
-    }
-
     @PUT
-    @Path("{student_index}")
     public void putStudent(@PathParam("student_index") Integer index, @Valid Student student){
         if (!student.is_valid()){
             throw new BadRequestException();
@@ -65,11 +49,11 @@ public class StudentsResource {
     }
 
     @DELETE
-    @Path("{student_index}")
     public void deleteStudent(@PathParam("student_index") Integer index) {
         WriteResult write_result = studentService.deleteStudent(index);
         if(write_result == null){
             throw new NotFoundException();
         }
     }
+
 }

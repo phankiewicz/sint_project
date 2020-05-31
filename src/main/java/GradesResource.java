@@ -13,10 +13,10 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
-@Path("/students/{student_index}/grades/{grade_id}")
+@Path("/students/{student_index}/grades")
 @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-public class GradeResource {
+public class GradesResource {
 
     @Context
     UriInfo uriInfo;
@@ -25,7 +25,7 @@ public class GradeResource {
 
     GradeService gradeService;
 
-    public GradeResource() {
+    public GradesResource() {
         gradeService = new GradeService();
     }
 
@@ -33,32 +33,19 @@ public class GradeResource {
     public int student_index;
 
     @GET
-    public Grade getStudent(@PathParam("grade_id") int id) {
-        Grade grade = gradeService.get_detail(student_index, id);
-        if(grade == null){
-            throw new NotFoundException();
-        }
-        return grade;
+    public List<Grade> getStudents() {
+        return gradeService.get_list(student_index);
     }
 
-    @PUT
-    public void update(@PathParam("grade_id") int id, @Valid Grade grade){
+    @POST
+    public Response create(@Valid Grade grade) throws URISyntaxException {
         Course course = gradeService.database.get(Course.class, grade.getCourse().getId());
         if (!grade.is_valid() || course == null){
             throw new BadRequestException();
         }
         grade.setCourse(course);
-        UpdateResults updateResults = gradeService.update(student_index, id, grade);
-        if(updateResults.getUpdatedCount() == 0){
-            throw new NotFoundException();
-        }
-    }
-
-    @DELETE
-    public void delete(@PathParam("grade_id") int id) {
-        WriteResult write_result = gradeService.delete(student_index, id);
-        if(write_result == null){
-            throw new NotFoundException();
-        }
+        Key<Grade> created_grade = gradeService.create(grade);
+        Grade current_grade = gradeService.database.get(Grade.class, created_grade.getId());
+        return Response.created(URI.create(uriInfo.getAbsolutePath() + "/" + current_grade.getId())).build();
     }
 }

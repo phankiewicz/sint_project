@@ -13,7 +13,7 @@ import javax.ws.rs.core.*;
 
 @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-@Path("/courses")
+@Path("/courses/{course_id}")
 public class CourseResource {
 
     @Context
@@ -28,12 +28,6 @@ public class CourseResource {
     }
 
     @GET
-    public List<Course> getStudents() {
-        return courseService.get_list();
-    }
-
-    @GET
-    @Path("{course_id}")
     public Course getStudent(@PathParam("course_id") ObjectId id) {
         Course course = courseService.get_detail(id);
         if(course == null){
@@ -42,17 +36,7 @@ public class CourseResource {
         return course;
     }
 
-    @POST
-    public Response create(@Valid Course course) throws URISyntaxException {
-        if (!course.is_valid()){
-            throw new BadRequestException();
-        }
-        Key<Course> created_course = courseService.create(course);
-        return Response.created(URI.create(uriInfo.getAbsolutePath() + "/" + created_course.getId())).build();
-    }
-
     @PUT
-    @Path("{course_id}")
     public void update(@PathParam("course_id") ObjectId id, @Valid Course course){
         if (!course.is_valid()){
             throw new BadRequestException();
@@ -64,7 +48,6 @@ public class CourseResource {
     }
 
     @DELETE
-    @Path("{course_id}")
     public void delete(@PathParam("course_id") ObjectId id) {
         WriteResult write_result = courseService.delete(id);
         if(write_result == null){
