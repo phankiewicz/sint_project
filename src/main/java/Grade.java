@@ -14,8 +14,8 @@ import java.util.List;
 @XmlRootElement
 public class Grade {
     @InjectLinks({
-            @InjectLink(style = InjectLink.Style.ABSOLUTE, resource = GradeResource.class, rel = "self", bindings = {@Binding(name = "student_index", value = "${instance.studentIndex}"), @Binding(name = "grade_id", value = "${instance.id}")}),
-            @InjectLink(style = InjectLink.Style.ABSOLUTE, resource = GradesResource.class, rel = "parent")
+            @InjectLink(resource = GradeResource.class, rel = "self", bindings = {@Binding(name = "student_index", value = "${instance.studentIndex}"), @Binding(name = "grade_id", value = "${instance.id}")}),
+            @InjectLink(resource = GradesResource.class, rel = "parent")
     })
     @XmlElement(name="link")
     @XmlElementWrapper(name = "links")
