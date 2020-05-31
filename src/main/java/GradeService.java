@@ -44,7 +44,10 @@ public class GradeService {
     }
 
     synchronized public WriteResult delete(Integer student_index, int id) {
-        Grade current_grade = database.createQuery(Grade.class).field("index").equal(id).first();
+        Grade current_grade = database.createQuery(Grade.class).field("id").equal(id).first();
+        if(current_grade == null){
+            return null;
+        }
         return database.delete(current_grade);
     }
 

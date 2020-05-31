@@ -40,6 +40,9 @@ public class CourseService {
 
     public WriteResult delete(ObjectId id) {
         Course course = database.get(Course.class, id);
+        if(course == null){
+            return null;
+        }
         List<Grade> grades = database.createQuery(Grade.class).filter("course", course).asList();
         for(Grade grade: grades){
             Grade current_grade = database.createQuery(Grade.class).field("id").equal(grade.getId()).first();

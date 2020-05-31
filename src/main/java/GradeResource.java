@@ -76,7 +76,7 @@ public class GradeResource {
     @Path("{grade_id}")
     public void delete(@PathParam("grade_id") int id) {
         WriteResult write_result = gradeService.delete(student_index, id);
-        if(write_result.getN() == 0){
+        if(write_result == null){
             throw new NotFoundException();
         }
     }

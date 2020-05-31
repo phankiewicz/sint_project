@@ -67,7 +67,7 @@ public class CourseResource {
     @Path("{course_id}")
     public void delete(@PathParam("course_id") ObjectId id) {
         WriteResult write_result = courseService.delete(id);
-        if(write_result.getN() == 0){
+        if(write_result == null){
             throw new NotFoundException();
         }
     }
