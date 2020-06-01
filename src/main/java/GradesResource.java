@@ -44,6 +44,7 @@ public class GradesResource {
             throw new BadRequestException();
         }
         grade.setCourse(course);
+        grade.setStudentIndex(student_index);
         Key<Grade> created_grade = gradeService.create(grade);
         Grade current_grade = gradeService.database.get(Grade.class, created_grade.getId());
         return Response.created(URI.create(uriInfo.getAbsolutePath() + "/" + current_grade.getId())).build();

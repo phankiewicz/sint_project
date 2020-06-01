@@ -34,6 +34,7 @@ public class Grade {
     private Date date;
     @Reference
     private Course course;
+    @XmlTransient
     private Integer studentIndex;
 
     List<Double> value_values = Arrays.asList(2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0);
