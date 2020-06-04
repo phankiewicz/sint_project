@@ -1,13 +1,13 @@
 import com.mongodb.WriteResult;
 import dev.morphia.Datastore;
 import dev.morphia.Key;
+import dev.morphia.query.Query;
 import dev.morphia.query.UpdateOperations;
 import dev.morphia.query.UpdateResults;
-import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class GradeService {
 
@@ -27,8 +27,40 @@ public class GradeService {
         return database.createQuery(Grade.class).field("studentIndex").equal(student_index).field("id").equal(id).first();
     }
 
-    public List<Grade> get_list(Integer student_index) {
-        return database.createQuery(Grade.class).field("studentIndex").equal(student_index).asList();
+    public List<Grade> get_list(Integer student_index, double value, int valueCompare, Date date, int dateCompare, String course_id) {
+        Query<Grade> query = database.createQuery(Grade.class).field("studentIndex").equal(student_index);
+        if(value != 0){
+            if(valueCompare > 0){
+                query = query.field("value").greaterThan(value);
+            }
+            else if(valueCompare < 0){
+                query = query.field("value").lessThan(value);
+            }
+            else {
+                query = query.field("value").equal(value);
+            }
+        }
+        if(date != null){
+            if(dateCompare > 0){
+                query = query.field("date").greaterThan(date);
+            }
+            else if(dateCompare < 0){
+                query = query.field("date").lessThan(date);
+            }
+            else {
+                query = query.field("date").equal(date);
+            }
+        }
+        if (course_id != null) {
+            List<Integer> grades_ids = new ArrayList<Integer>();
+            for(Grade grade: query){
+                if(grade.getCourse().getId().toString().equalsIgnoreCase(course_id)){
+                    grades_ids.add(grade.getId());
+                }
+            }
+            query = query.field("id").in(grades_ids);
+        }
+        return query.asList();
     }
 
 

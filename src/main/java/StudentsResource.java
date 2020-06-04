@@ -4,6 +4,7 @@ import dev.morphia.query.UpdateResults;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -29,8 +30,12 @@ public class StudentsResource {
     }
 
     @GET
-    public List<Student> getStudents() {
-        return studentService.getStudents();
+    public List<Student> getStudents(
+            @QueryParam("firstName") String firstName,
+            @QueryParam("lastName") String lastName,
+            @QueryParam("birthday") Date birthday,
+            @DefaultValue("0") @QueryParam("birthdayCompare") int birthdayCompare) {
+        return studentService.getStudents(firstName, lastName, birthday, birthdayCompare);
     }
 
     @GET

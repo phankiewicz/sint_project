@@ -28,8 +28,9 @@ public class CoursesResource {
     }
 
     @GET
-    public List<Course> getStudents() {
-        return courseService.get_list();
+    public List<Course> getStudents(@QueryParam("name") String name,
+                                    @QueryParam("lecturer") String lecturer) {
+        return courseService.get_list(name, lecturer);
     }
 
     @POST
